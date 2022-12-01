@@ -1,8 +1,9 @@
 {
-  "name": "mock-backend",
+  "name": "internal-portal-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "This is Internal Portal project's backend",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js",
     "dev-start": "nodemon index.js",
@@ -18,8 +19,10 @@
     "url": "https://github.com/Priyanshi-Tiwari/mock-backend/issues"
   },
   "homepage": "https://github.com/Priyanshi-Tiwari/mock-backend#readme",
-  
   "dependencies": {
-    "express": "^4.18.2"
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.4"
   }
 }
