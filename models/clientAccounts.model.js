@@ -6,7 +6,7 @@ const clientAccountsSchema = mongoose.Schema({
         unique: true,
         required: true,
     },
-    account_manager_name: {
+    account_manager: {
         type: String,
         trim: true,
         required: true,

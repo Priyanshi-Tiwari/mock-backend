@@ -1,18 +1,62 @@
 import ClientAccounts from "../models/clientAccounts.model.js";
 import Users from "../models/users.model.js";
 
-// GET - All client accounts data
 export const getAllClientAccounts = async (req, res) => {
-    const allClientAccounts = await ClientAccounts.find({});
+    const allClientAccounts = await ClientAccounts.aggregate([
+        { $match: {} },
+        {
+            $lookup: {
+                from: "users",
+                localField: "account_manager",
+                foreignField: "username",
+                as: "account_manager_user"
+            }
+        },
+        {
+            $project: {
+                "_id": true,
+                "name": true,
+                "account_manager": true,
+                "status": true,
+                "createdAt": true,
+                "updatedAt": true,
+                "account_manager_name": "$account_manager_user.name",
+            }
+        },
+    ]).exec();
+
     if (allClientAccounts.length > 0) {
         return res.status(200).send({ "message": "Client accounts fetched successfully", allClientAccounts });
     } else {
         return res.status(404).send({ "message": "Client accounts not available", allClientAccounts });
     }
 }
+
 // GET - Client accounts data by name
 export const getClientAccountByName = async (req, res) => {
-    const clientAccount = await ClientAccounts.find({ name: req.params.name });
+    const clientAccount = await ClientAccounts.aggregate([
+        { $match: {} },
+        {
+            $lookup: {
+                from: "users",
+                localField: "account_manager",
+                foreignField: "username",
+                as: "account_manager_user"
+            }
+        },
+        {
+            $project: {
+                "_id": true,
+                "name": true,
+                "account_manager": true,
+                "status": true,
+                "createdAt": true,
+                "updatedAt": true,
+                "account_manager_name": "$account_manager_user.name",
+            }
+        },
+    ]).exec();
+
     if (clientAccount.length > 0) {
         return res.status(200).send({ "message": "Client account found", clientAccount });
     } else {
@@ -34,7 +78,8 @@ const createClientAccountObject = async (req) => {
     const username = await getUsername(req.body.account_manager);
     return {
         name: req.body.name,
-        account_manager_name: username
+        account_manager: username,
+        status: req.body.status
     };
 }
 
@@ -44,7 +89,7 @@ const getUsername = async (account_manager_name) => {
     if (username) {
         return username;
     } else {
-        console.log({ error: `Unable to find user with name ${account_manager_name}`})
+        console.log({ error: `Unable to find user with name ${account_manager_name}` })
     }
 }
 
