@@ -26,7 +26,8 @@ export const getAllClientAccounts = async (req, res) => {
     ]).exec();
 
     if (allClientAccounts.length > 0) {
-        return res.status(200).send({ "message": "Client accounts fetched successfully", allClientAccounts });
+        console.log({ "message": "Client accounts fetched successfully" });
+        return res.status(200).send(allClientAccounts);
     } else {
         return res.status(404).send({ "message": "Client accounts not available", allClientAccounts });
     }
@@ -58,7 +59,8 @@ export const getClientAccountByName = async (req, res) => {
     ]).exec();
 
     if (clientAccount.length > 0) {
-        return res.status(200).send({ "message": "Client account found", clientAccount });
+        console.log({ "message": "Client account fetched successfully" });
+        return res.status(200).send(clientAccount);
     } else {
         return res.status(404).send({ "message": "Client account not found", clientAccount });
     }
@@ -68,7 +70,8 @@ export const createClientAccount = async (req, res) => {
     try {
         const clientAccount = await createClientAccountObject(req);
         const savedClientAccount = await ClientAccounts.create(clientAccount);
-        return res.status(200).send({ message: "Client account created successfully", client_account: savedClientAccount });
+        console.log({ "message": "Client account created successfully" });
+        return res.status(200).send(savedClientAccount);
     } catch (err) {
         return res.status(400).send({ error: "Unable to create client account", err })
     }
@@ -99,7 +102,8 @@ export const updateClientAccount = async (req, res) => {
     const update = req.body.updated_client_account;
     try {
         const updatedClientAccount = await ClientAccounts.findOneAndUpdate(filter, update, { new: true });
-        return res.status(201).send({ message: "Client account created successfully", client_account: updatedClientAccount });
+        console.log({ message: "Client account created successfully"});
+        return res.status(201).send(updatedClientAccount);
     } catch (err) {
         return res.status(400).send({ error: "Unable to update client account", err });
     }
