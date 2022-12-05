@@ -1,10 +1,11 @@
 import express from "express";
-import { getAllClientAccounts, getClientAccountByName, createClientAccount } from "../controllers/clientAccounts.controller.js";
+import * as clientAccountsControllerJs from "../controllers/clientAccounts.controller.js";
 
 const router = express.Router();
 
-router.post('/', createClientAccount);
-router.get('/', getAllClientAccounts);
-router.get('/:name', getClientAccountByName);
+router.post("/", clientAccountsControllerJs.createClientAccount);
+router.get("/", clientAccountsControllerJs.getAllClientAccounts);
+router.get("/:name", clientAccountsControllerJs.getClientAccountByName);
+router.put("/", clientAccountsControllerJs.updateClientAccount);
 
 export default router;
