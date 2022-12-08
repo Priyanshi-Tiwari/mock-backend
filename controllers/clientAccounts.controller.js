@@ -3,7 +3,7 @@ import Users from "../models/users.model.js";
 
 export const getAllClientAccounts = async (req, res) => {
     const allClientAccounts = await ClientAccounts.aggregate([
-        { $match: {} },
+        // { $match: {} },
         {
             $lookup: {
                 from: "users",
